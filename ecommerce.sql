@@ -92,3 +92,118 @@ CREATE TABLE product_attribute (
     FOREIGN KEY (attribute_category_id) REFERENCES attribute_category(attribute_category_id),
     FOREIGN KEY (attribute_type_id) REFERENCES attribute_type(attribute_type_id)
 );
+
+-- Inserting sample data into the e-commerce database
+
+-- Sample Brands
+INSERT INTO brand (name, description, logo_url) VALUES
+('Nike', 'Athletic and casual footwear, apparel, and accessories', 'https://example.com/logos/nike.png'),
+('Apple', 'Consumer electronics, software, and online services', 'https://example.com/logos/apple.png'),
+('IKEA', 'Ready-to-assemble furniture, kitchen appliances, and home accessories', 'https://example.com/logos/ikea.png');
+
+-- Sample Product Categories (with hierarchy)
+INSERT INTO product_category (name, description, parent_category_id) VALUES
+('Electronics', 'Electronic devices and accessories', NULL),
+('Clothing', 'Apparel and fashion items', NULL),
+('Furniture', 'Home and office furniture', NULL);
+
+-- Add subcategories
+INSERT INTO product_category (name, description, parent_category_id) VALUES
+('Smartphones', 'Mobile phones and accessories', 1),
+('Laptops', 'Portable computers', 1),
+('Men\'s Clothing', 'Clothing items for men', 2),
+('Women\'s Clothing', 'Clothing items for women', 2),
+('Living Room', 'Furniture for living rooms', 3),
+('Office', 'Furniture for offices', 3);
+
+-- Sample Colors
+INSERT INTO color (name, color_code) VALUES
+('Black', '#000000'),
+('White', '#FFFFFF'),
+('Red', '#FF0000'),
+('Blue', '#0000FF'),
+('Green', '#00FF00'),
+('Gray', '#808080');
+
+-- Sample Size Categories
+INSERT INTO size_category (name, description) VALUES
+('Clothing Sizes', 'Standard clothing sizes'),
+('Shoe Sizes', 'Standard shoe sizes'),
+('Screen Sizes', 'Device screen sizes in inches');
+
+-- Sample Size Options
+INSERT INTO size_option (size_category_id, name, code, sort_order) VALUES
+(1, 'Small', 'S', 1),
+(1, 'Medium', 'M', 2),
+(1, 'Large', 'L', 3),
+(1, 'X-Large', 'XL', 4),
+(2, 'US 7', '7', 1),
+(2, 'US 8', '8', 2),
+(2, 'US 9', '9', 3),
+(2, 'US 10', '10', 4),
+(3, '13-inch', '13', 1),
+(3, '14-inch', '14', 2),
+(3, '16-inch', '16', 3);
+
+-- Sample Attribute Categories
+INSERT INTO attribute_category (name, description) VALUES
+('Physical', 'Physical attributes like weight, dimensions'),
+('Technical', 'Technical specifications'),
+('Material', 'Material composition information');
+
+-- Sample Attribute Types
+INSERT INTO attribute_type (name, data_type) VALUES
+('Text', 'text'),
+('Number', 'number'),
+('Boolean', 'boolean'),
+('Date', 'date');
+
+-- Sample Products
+INSERT INTO product (name, description, base_price, brand_id, category_id, active) VALUES
+('iPhone 14 Pro', 'Apple\'s flagship smartphone with advanced camera system', 999.99, 2, 4, TRUE),
+('MacBook Pro', 'Powerful laptop for professionals', 1999.99, 2, 5, TRUE),
+('Air Force 1', 'Iconic basketball shoes turned streetwear staple', 90.00, 1, 2, TRUE),
+('POÄNG Chair', 'Bentwood armchair with cushion', 159.00, 3, 8, TRUE);
+
+-- Sample Product Images
+INSERT INTO product_image (product_id, image_url, is_primary, display_order) VALUES
+(1, 'https://example.com/images/iphone14pro_1.jpg', TRUE, 1),
+(1, 'https://example.com/images/iphone14pro_2.jpg', FALSE, 2),
+(2, 'https://example.com/images/macbookpro_1.jpg', TRUE, 1),
+(3, 'https://example.com/images/airforce1_1.jpg', TRUE, 1),
+(3, 'https://example.com/images/airforce1_2.jpg', FALSE, 2),
+(4, 'https://example.com/images/poang_1.jpg', TRUE, 1);
+
+-- Sample Product Variations
+INSERT INTO product_variation (product_id, color_id, size_id) VALUES
+(1, 1, NULL), -- iPhone 14 Pro in Black
+(1, 2, NULL), -- iPhone 14 Pro in White
+(2, 1, 11),   -- MacBook Pro in Black, 16-inch
+(2, 2, 10),   -- MacBook Pro in White, 14-inch
+(3, 1, 6),    -- Air Force 1 in Black, Size US 8
+(3, 2, 6),    -- Air Force 1 in White, Size US 8
+(3, 2, 7),    -- Air Force 1 in White, Size US 9
+(4, 6, NULL); -- POÄNG Chair in Gray
+
+-- Sample Product Items (SKUs)
+INSERT INTO product_item (product_id, variation_id, sku, price, quantity_in_stock, is_available) VALUES
+(1, 1, 'IPH14PRO-BLK-128', 999.99, 50, TRUE),
+(1, 2, 'IPH14PRO-WHT-128', 999.99, 30, TRUE),
+(2, 3, 'MBP16-BLK-512', 2499.99, 15, TRUE),
+(2, 4, 'MBP14-WHT-512', 1999.99, 10, TRUE),
+(3, 5, 'AF1-BLK-08', 90.00, 25, TRUE),
+(3, 6, 'AF1-WHT-08', 90.00, 40, TRUE),
+(3, 7, 'AF1-WHT-09', 90.00, 35, TRUE),
+(4, 8, 'POANGCHR-GRY', 159.00, 20, TRUE);
+
+-- Sample Product Attributes
+INSERT INTO product_attribute (product_id, attr_category_id, attr_type_id, attribute_name, attribute_value) VALUES
+(1, 2, 2, 'Storage', '128 GB'),
+(1, 2, 2, 'RAM', '6 GB'),
+(1, 1, 2, 'Weight', '240 g'),
+(2, 2, 2, 'Processor', 'Apple M2 Pro'),
+(2, 2, 2, 'RAM', '16 GB'),
+(3, 3, 1, 'Upper Material', 'Leather'),
+(3, 3, 1, 'Sole Material', 'Rubber'),
+(4, 3, 1, 'Frame Material', 'Birch veneer'),
+(4, 3, 1, 'Cushion Material', 'Polyester');
