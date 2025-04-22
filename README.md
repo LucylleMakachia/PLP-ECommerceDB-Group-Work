@@ -46,5 +46,5 @@ Our database consists of the following major components:
 
 1. Clone this repo:
    ```bash
-   git clone https://github.com/your-username/ecommerce-database.git
+   git clone https://github.com/LucylleMakachia/PLP-ECommerceDB-Group-Work.git 
    cd ecommerce-database
