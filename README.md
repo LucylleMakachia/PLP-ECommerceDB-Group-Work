@@ -48,3 +48,8 @@ Our database consists of the following major components:
    ```bash
    git clone https://github.com/LucylleMakachia/PLP-ECommerceDB-Group-Work.git 
    cd ecommerce-database
+
+## Authors
+1. Lucylle Makachia
+2. Ikechukwu Agoha
+3. Charmaine 
