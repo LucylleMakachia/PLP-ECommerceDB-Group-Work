@@ -93,6 +93,78 @@ CREATE TABLE product_attribute (
     FOREIGN KEY (attribute_type_id) REFERENCES attribute_type(attribute_type_id)
 );
 
+--Introducing Customer and Order Management Tables into the e-commerce database
+
+-- 1. Products Table
+CREATE TABLE IF NOT EXISTS Products (
+    product_id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    description TEXT,
+    price DECIMAL(10, 2) NOT NULL,
+    stock_quantity INT DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 2. Orders Table
+CREATE TABLE IF NOT EXISTS Orders (
+    order_id INT PRIMARY KEY AUTO_INCREMENT,
+    CustomerID INT NOT NULL, -- matches your existing Customers table
+    order_date DATE NOT NULL,
+    order_status VARCHAR(50) DEFAULT 'pending',
+    total_amount DECIMAL(10, 2),
+    FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID)
+);
+
+-- 3. OrderItems Table
+CREATE TABLE IF NOT EXISTS OrderItems (
+    order_item_id INT PRIMARY KEY AUTO_INCREMENT,
+    order_id INT NOT NULL,
+    product_id INT NOT NULL,
+    quantity INT NOT NULL,
+    price DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (order_id) REFERENCES Orders(order_id),
+    FOREIGN KEY (product_id) REFERENCES Products(product_id)
+);
+
+-- 4. Shipping Table
+CREATE TABLE IF NOT EXISTS Shipping (
+    shipping_id INT PRIMARY KEY AUTO_INCREMENT,
+    order_id INT NOT NULL,
+    shipping_address TEXT NOT NULL,
+    shipping_method VARCHAR(50),
+    tracking_number VARCHAR(100),
+    shipped_date DATE,
+    delivery_date DATE,
+    FOREIGN KEY (order_id) REFERENCES Orders(order_id)
+
+-- View an Order with Product Information
+SELECT 
+    o.order_id,
+    c.FullName AS customer_name,
+    p.name AS product_name,
+    oi.quantity,
+    oi.price,
+    (oi.quantity * oi.price) AS total_price
+FROM OrderItems oi
+JOIN Orders o ON oi.order_id = o.order_id
+JOIN Customers c ON o.CustomerID = c.CustomerID
+JOIN Products p ON oi.product_id = p.product_id
+WHERE o.order_id = 10;
+
+-- Create ProductReviews Table
+
+CREATE TABLE IF NOT EXISTS ProductReviews (
+    review_id INT PRIMARY KEY AUTO_INCREMENT,
+    CustomerID INT NOT NULL,
+    product_id INT NOT NULL,
+    rating INT CHECK (rating BETWEEN 1 AND 5),
+    review_text TEXT,
+    review_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID),
+    FOREIGN KEY (product_id) REFERENCES Products(product_id)
+);
+
+
 -- Inserting sample data into the e-commerce database
 
 -- Sample Brands
@@ -207,3 +279,33 @@ INSERT INTO product_attribute (product_id, attr_category_id, attr_type_id, attri
 (3, 3, 1, 'Sole Material', 'Rubber'),
 (4, 3, 1, 'Frame Material', 'Birch veneer'),
 (4, 3, 1, 'Cushion Material', 'Polyester');
+
+-- Sample data for Customer and Order Management
+
+ -- Insert Products
+INSERT INTO Products (name, description, price, stock_quantity) VALUES
+('Wireless Mouse', 'Ergonomic wireless mouse', 15.00, 50),
+('USB Keyboard', 'Standard wired USB keyboard', 25.00, 30),
+('HD Monitor', '24-inch full HD monitor', 120.00, 20);
+
+-- Insert a Sample Order. giving that there is a customerID = 1 in the customer table
+INSERT INTO Orders (CustomerID, order_date, order_status, total_amount) VALUES
+(1, CURDATE(), 'pending', 55.00); -- total = (2 * 15) + (1 * 25)
+
+
+-- Insert OrderItems if the order_id = 1 from the above
+INSERT INTO OrderItems (order_id, product_id, quantity, price) VALUES
+(1, 1, 2, 15.00), -- 2 Wireless Mouse
+(1, 2, 1, 25.00); -- 1 USB Keyboard
+
+-- Insert Shipping Information
+INSERT INTO Shipping (order_id, shipping_address, shipping_method, tracking_number, shipped_date)
+VALUES
+(1, '123 Bookstore Ave, Lagos', 'Standard Delivery', 'TRACK123456', CURDATE());
+
+-- Sample data for product reviews between 1 to 5 star rating
+
+INSERT INTO ProductReviews (CustomerID, product_id, rating, review_text) VALUES
+(1, 1, 5, 'This wireless mouse is super smooth and works great!'),
+(1, 2, 4, 'Keyboard feels good but the cable is a bit short.');
+

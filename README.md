@@ -51,5 +51,5 @@ Our database consists of the following major components:
 
 ## Authors
 1. Lucylle Makachia
-2. Ikechukwu Agoha
+2. Ikechukwu Agoha"
 3. Charmaine Mashaa

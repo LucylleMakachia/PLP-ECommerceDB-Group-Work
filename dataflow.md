@@ -86,3 +86,9 @@ This database design allows for future expansion:
 
 3. **Discount and Promotion System**
    - Add tables for discounts, coupons, and promotional pricing
+
+4. **Whish-list and Favorites**
+  - Add table for product in high demand or best sellers
+
+5. **Invoices / Payment Records**
+  - Add tables for tracking  customer payment orders
