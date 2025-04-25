@@ -41,11 +41,12 @@ Our database consists of the following major components:
 
 📍 View the full ERD of the database:
 
-![E-commerce ERD](diagrams/ecommerce.drawio.png)
+[![E-commerce ERD](diagrams/ecommerce.png)](diagrams/ecommerce.png)
 
 > Note: Our normalized database design follows industry best practices to minimize redundancy while maintaining data integrity.
 
----
+Click below to view the full ERD of the database:
+
 
 ## 💾 How to Use
 
