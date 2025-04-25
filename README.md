@@ -45,7 +45,8 @@ Our database consists of the following major components:
 
 > Note: Our normalized database design follows industry best practices to minimize redundancy while maintaining data integrity.
 
----
+Click below to view the full ERD of the database:
+
 
 ## 💾 How to Use
 
