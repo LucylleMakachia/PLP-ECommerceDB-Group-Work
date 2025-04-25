@@ -158,7 +158,7 @@ CREATE TABLE product_reviews (
     FOREIGN KEY (product_id) REFERENCES products(product_id)
 );
 
--- Insert Sample Data
+-- Sample Data
 -- Brands
 INSERT INTO brands (name, description, logo_url) VALUES
 ('Nike', 'Athletic and casual footwear, apparel, and accessories', 'https://example.com/logos/nike.png'),
@@ -222,10 +222,10 @@ INSERT INTO attribute_types (name, data_type) VALUES
 ('Boolean', 'boolean'),
 ('Date', 'date');
 
--- Customers
+-- Sample Customers
 INSERT INTO customers (full_name, email, phone, password_hash) VALUES
-('John Wekesa', 'john@mail.com', '+254 712345678', 'hgRT7#M!'),
-('Jane Kamau', 'jane@mail.com', '+27 12345678', 'xE9@maL');
+('John Wekesa', 'john@example.com', '555-123-4567', 'hgRT7#M!'),
+('Jane Kamau', 'jane@example.com', '555-987-6543', 'xE9@maL');
 
 -- Products
 INSERT INTO products (name, description, base_price, brand_id, category_id, active) VALUES
@@ -301,8 +301,7 @@ INSERT INTO product_reviews (customer_id, product_id, rating, review_text) VALUE
 (1, 5, 5, 'This wireless mouse is super smooth and works great!'),
 (1, 6, 4, 'Keyboard feels good but the cable is a bit short.');
 
--- Sample Query 
--- View an Order with Product Information
+-- Sample Query - View an Order with Product Information
 SELECT 
     o.order_id,
     c.full_name AS customer_name,
@@ -317,7 +316,8 @@ JOIN product_items pi ON oi.product_item_id = pi.product_item_id
 JOIN products p ON pi.product_id = p.product_id
 WHERE o.order_id = 1;
 
--- Retrive product details
+-- Get Product Details with Variations
+
 SELECT 
     p.name AS product_name,
     b.name AS brand_name,
@@ -333,4 +333,25 @@ JOIN product_items pi ON pv.variation_id = pi.variation_id
 LEFT JOIN colors c ON pv.color_id = c.color_id
 LEFT JOIN size_options s ON pv.size_id = s.size_id
 WHERE p.product_id = 3;
+
+
+--- Get Complete Order Information
+
+SELECT 
+    o.order_id,
+    c.full_name AS customer_name,
+    p.name AS product_name,
+    pi.sku,
+    oi.quantity,
+    oi.price,
+    (oi.quantity * oi.price) AS total_price,
+    s.shipping_address,
+    s.tracking_number
+FROM orders o
+JOIN customers c ON o.customer_id = c.customer_id
+JOIN order_items oi ON o.order_id = oi.order_id
+JOIN product_items pi ON oi.product_item_id = pi.product_item_id
+JOIN products p ON pi.product_id = p.product_id
+LEFT JOIN shipping s ON o.order_id = s.order_id
+WHERE o.order_id = 1;
 
