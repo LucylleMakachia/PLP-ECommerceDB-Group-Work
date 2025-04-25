@@ -41,7 +41,7 @@ Our database consists of the following major components:
 
 📍 View the full ERD of the database:
 
-![E-commerce ERD](PLP-ECommerceDB-Group-Work/diagrams/ecommerce.drawio)
+![E-commerce ERD](diagrams/ecommerce.png)
 
 > Note: Our normalized database design follows industry best practices to minimize redundancy while maintaining data integrity.
 
